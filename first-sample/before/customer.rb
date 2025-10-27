@@ -1,3 +1,6 @@
+require_relative 'movie'
+require_relative 'rental'
+
 class Customer
   attr_reader :name
 
@@ -50,4 +53,3 @@ class Customer
     result
   end
 end
-
