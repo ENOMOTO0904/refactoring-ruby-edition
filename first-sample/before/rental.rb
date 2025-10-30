@@ -21,7 +21,7 @@ class Rental
     rental_price
   end
 
-  def add_renter_point
+  def add_rental_point
     points = 1
 
     if movie.price_code == Movie::NEW_RELEASE && days_rented > 1

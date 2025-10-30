@@ -14,21 +14,29 @@ class Customer
   end
 
   def statement
-    total_price = 0          # 合計金額
-    frequent_renter_points = 0  # ポイント
-    result = "Rental Record for #{@name}\n" # 出力結果の文字列
+    result = "Rental Record for #{@name}\n"
+    total_price
+    total_frequent_renter_points
 
     @rentals.each do |rental|
-      price = rental.caluculate_rental_price
-      total_price += price
-      frequent_renter_points += rental.add_renter_point
-
-      result += "\t" + rental.movie.title + "\t" + price.to_s + "\n"
+      result += "\t" + rental.movie.title + "\t" + rental.caluculate_rental_price.to_s + "\n"
     end
 
     # フッター（合計金額とポイント）を追加
     result += "Amount owed is #{total_price}\n"
-    result += "You earned #{frequent_renter_points} frequent renter points"
+    result += "You earned #{total_frequent_renter_points} frequent renter points"
     result
+  end
+
+  private
+
+  attr_reader :rentals
+
+  def total_price
+    rentals.sum(&:caluculate_rental_price)
+  end
+
+  def total_frequent_renter_points
+    rentals.sum(&:add_rental_point)
   end
 end
