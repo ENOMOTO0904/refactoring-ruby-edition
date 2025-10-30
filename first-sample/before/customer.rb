@@ -6,7 +6,7 @@ class Customer
 
   def initialize(name)
     @name = name
-    @rentals = [] # レンタル履歴
+    @rentals = []
   end
 
   def add_rental(arg)
@@ -14,23 +14,29 @@ class Customer
   end
 
   def statement
-    result = "Rental Record for #{@name}\n"
-    total_price
-    total_frequent_renter_points
-
-    @rentals.each do |rental|
-      result += "\t" + rental.movie.title + "\t" + rental.caluculate_rental_price.to_s + "\n"
-    end
-
-    # フッター（合計金額とポイント）を追加
-    result += "Amount owed is #{total_price}\n"
-    result += "You earned #{total_frequent_renter_points} frequent renter points"
-    result
+    header + body + footer
   end
 
   private
 
   attr_reader :rentals
+
+  def header
+    "Rental Record for #{@name}\n"
+  end
+
+  def body
+    result = ""
+    rentals.each do |rental|
+      result += "\t" + rental.movie.title + "\t" + rental.caluculate_rental_price.to_s + "\n"
+    end
+    result
+  end
+
+  def footer
+    "Amount owed is #{total_price}\n" +
+    "You earned #{total_frequent_renter_points} frequent renter points"
+  end
 
   def total_price
     rentals.sum(&:caluculate_rental_price)
